@@ -1636,7 +1636,8 @@ img {
   line-height: 0.906;
   letter-spacing: -0.04em;
   opacity: 0;
-  transition: opacity 0.3s ease-in-out;
+  transform: translateX(10px);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 @media (min-width: 2000px) {
   .game__title {
@@ -1664,6 +1665,7 @@ img {
 
 .screen--game.active .game__title {
   opacity: 1;
+  transform: translateX(0);
 }
 
 .game__counter {
@@ -1832,7 +1834,7 @@ img {
   font-size: 2.4rem;
   line-height: 1.27;
   opacity: 0;
-  transition: all 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
   transform: translateY(10px);
 }
 @media (min-width: 2000px) {
@@ -2190,7 +2192,7 @@ img {
   display: block;
   color: inherit;
   padding: 0 0.5em 0.5em;
-  transition-duration: 300ms;
+  transition: color 0.3s ease-in-out;
 }
 .page-header__menu a::after {
   content: "";
@@ -2200,7 +2202,7 @@ img {
   height: 2px;
   background-color: #ffffff;
   right: 0;
-  transition: all 300ms ease-in-out;
+  transition: width 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
 @media (max-width: 1024px) and (orientation: portrait) {
   .page-header__menu a::after {
@@ -3893,7 +3895,7 @@ img {
   height: 4rem;
   color: #5f458c;
   border-radius: 50%;
-  transition: all 300ms ease-in-out;
+  transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 .social-block__toggler:focus {
   outline: none;
