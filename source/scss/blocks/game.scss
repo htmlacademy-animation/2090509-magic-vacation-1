@@ -49,6 +49,9 @@
   font-size: 4.8rem;
   line-height: 0.906;
   letter-spacing: -0.04em;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 
   @media (min-width: $stop-scaling) {
     font-size: 48px;
@@ -67,6 +70,13 @@
   @media (max-width: $mobile) and (orientation: landscape) {
     font-size: 2rem;
     margin-bottom: 1rem;
+  }
+}
+
+.screen--game.active {
+  & .game__title {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
