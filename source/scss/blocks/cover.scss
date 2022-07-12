@@ -1,0 +1,18 @@
+.content-cover {
+  z-index: 1;
+  bottom: 0;
+  position: fixed;
+  height: 0;
+  background-color: $c-dark;
+  width: 100vw;
+  transition: height linear .5s;
+
+  &.active {
+    display: block;
+    height: 100vh;
+  }
+
+  &.d-none {
+    display: none;
+  }
+}

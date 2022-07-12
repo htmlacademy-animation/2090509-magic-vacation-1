@@ -1,4 +1,5 @@
 import throttle from 'lodash/throttle';
+import {COVERED_PAGES} from "../constants";
 
 export default class FullPageScroll {
   constructor() {
@@ -52,14 +53,25 @@ export default class FullPageScroll {
   }
 
   changeVisibilityDisplay() {
-    this.screenElements.forEach((screen) => {
-      screen.classList.add(`screen--hidden`);
-      screen.classList.remove(`active`);
-    });
-    this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
+    const {hash} = window.location;
+    const covered = COVERED_PAGES.includes(hash);
+    const cover = document.querySelector(`.content-cover`);
+    if (covered) {
+      cover.classList.remove(`d-none`);
+      setTimeout(() => cover.classList.add(`active`));
+    }
     setTimeout(() => {
+      this.screenElements.forEach((screen) => {
+        screen.classList.add(`screen--hidden`);
+        screen.classList.remove(`active`);
+      });
+      this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
+    }, 500);
+    setTimeout(() => {
+      cover.classList.add(`d-none`);
+      cover.classList.remove(`active`);
       this.screenElements[this.activeScreen].classList.add(`active`);
-    }, 100);
+    }, 500);
   }
 
   changeActiveMenuItem() {
