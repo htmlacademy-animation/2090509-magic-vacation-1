@@ -1,4 +1,6 @@
 import throttle from 'lodash/throttle';
+import {COVERED_PAGES, UNCOVERED_PAGES} from "../constants";
+import {getHash} from "../helpers";
 
 export default class FullPageScroll {
   constructor() {
@@ -12,11 +14,15 @@ export default class FullPageScroll {
     this.activeScreen = 0;
     this.onScrollHandler = this.onScroll.bind(this);
     this.onUrlHashChengedHandler = this.onUrlHashChanged.bind(this);
+
+    this.newHash = ``;
   }
 
   init() {
     document.addEventListener(`wheel`, throttle(this.onScrollHandler, this.THROTTLE_TIMEOUT, {trailing: true}));
     window.addEventListener(`popstate`, this.onUrlHashChengedHandler);
+    // eslint-disable-next-line no-return-assign
+    window.addEventListener(`hashchange`, (event) => this.newHash = getHash(event.newURL));
 
     this.onUrlHashChanged();
   }
@@ -52,14 +58,25 @@ export default class FullPageScroll {
   }
 
   changeVisibilityDisplay() {
-    this.screenElements.forEach((screen) => {
-      screen.classList.add(`screen--hidden`);
-      screen.classList.remove(`active`);
-    });
-    this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
+    const {hash} = window.location;
+    const covered = COVERED_PAGES.includes(hash) && UNCOVERED_PAGES.includes(this.newHash);
+    const cover = document.querySelector(`.content-cover`);
+    if (covered) {
+      cover.classList.remove(`d-none`);
+      setTimeout(() => cover.classList.add(`active`));
+    }
     setTimeout(() => {
+      this.screenElements.forEach((screen) => {
+        screen.classList.add(`screen--hidden`);
+        screen.classList.remove(`active`);
+      });
+      this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
+    }, 500);
+    setTimeout(() => {
+      cover.classList.add(`d-none`);
+      cover.classList.remove(`active`);
       this.screenElements[this.activeScreen].classList.add(`active`);
-    }, 100);
+    }, 500);
   }
 
   changeActiveMenuItem() {
